@@ -45,6 +45,6 @@ public class AuditEntity {
   protected String attribute;
 
   @Setter
-  protected Boolean isActive;
+  protected Boolean isActive = true;
 
 }

@@ -1,0 +1,14 @@
+version: '3'
+services:
+  local-db:
+    image: docker.io/bitnami/postgresql:11
+    container_name: local-db
+    restart: always
+    ports:
+      - 15432:5432
+    environment:
+      POSTGRESQL_DATABASE: migration
+      POSTGRESQL_USERNAME: user
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_TIMEZONE: Asia/Seoul
+      POSTGRESQL_LOG_TIMEZONE: Asia/Seoul

@@ -7,7 +7,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -39,10 +38,6 @@ public class AuditEntity {
   @Column(name = "updated_by")
   @LastModifiedBy
   protected String updatedBy;
-
-  @Column(name = "attribute", columnDefinition = "text")
-  @Type(type = "text")
-  protected String attribute;
 
   @Setter
   protected Boolean isActive = true;

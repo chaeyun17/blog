@@ -1,14 +1,15 @@
 package coop.parti.chaeyun17.blog.post.application;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import coop.parti.chaeyun17.blog.common.domain.search.SearchReq;
 import coop.parti.chaeyun17.blog.exception.AppException;
 import coop.parti.chaeyun17.blog.exception.ErrorCode;
 import coop.parti.chaeyun17.blog.post.domain.Post;
 import coop.parti.chaeyun17.blog.post.domain.PostRepository;
+import coop.parti.chaeyun17.blog.post.domain.PostRepositorySupport;
 import coop.parti.chaeyun17.blog.post.dto.PostCreateRequest;
 import coop.parti.chaeyun17.blog.post.dto.PostResponse;
 import coop.parti.chaeyun17.blog.post.dto.PostUpdateRequest;
@@ -18,9 +19,12 @@ import coop.parti.chaeyun17.blog.post.dto.PostUpdateRequest;
 public class PostService {
 
   private final PostRepository postRepository;
+  private final PostRepositorySupport postRepositorySupport;
 
-  public PostService(PostRepository postRepository) {
+  public PostService(PostRepository postRepository,
+    PostRepositorySupport postRepositorySupport) {
     this.postRepository = postRepository;
+    this.postRepositorySupport = postRepositorySupport;
   }
 
   public PostResponse create(PostCreateRequest request) {
@@ -30,8 +34,8 @@ public class PostService {
   }
 
   @Transactional(readOnly = true)
-  public Page<PostResponse> getList(Pageable pageable) {
-    Page<Post> list = postRepository.findAll(pageable);
+  public Page<PostResponse> getList(SearchReq request) {
+    Page<Post> list = postRepositorySupport.search(request);
     return list.map(Post::toResponse);
   }
 
@@ -67,5 +71,5 @@ public class PostService {
     post.increaseViewCount();
     return post.toResponse();
   }
-  
+
 }

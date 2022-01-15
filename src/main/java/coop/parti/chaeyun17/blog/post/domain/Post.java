@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.springframework.util.StringUtils;
 
 import coop.parti.chaeyun17.blog.common.domain.AuditEntity;
@@ -30,6 +31,7 @@ public class Post extends AuditEntity {
 
   @Lob
   @Column
+  @Type(type = "org.hibernate.type.TextType")
   private String content;
 
   @Column(nullable = false)

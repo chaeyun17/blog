@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import coop.parti.chaeyun17.blog.common.controller.BaseUrl;
+import coop.parti.chaeyun17.blog.common.domain.search.SearchParamToReqConverter;
+import coop.parti.chaeyun17.blog.common.domain.search.SearchReq;
 import coop.parti.chaeyun17.blog.post.application.PostService;
 import coop.parti.chaeyun17.blog.post.dto.PostCreateRequest;
 import coop.parti.chaeyun17.blog.post.dto.PostResponse;
@@ -42,8 +45,10 @@ public class PostController {
   }
 
   @GetMapping(BASE_URL)
-  public ResponseEntity<Page<PostResponse>> getList(@PageableDefault Pageable pageable) {
-    Page<PostResponse> list = postService.getList(pageable);
+  public ResponseEntity<Page<PostResponse>> getList(@RequestParam(required = false) String search,
+    @PageableDefault Pageable pageable) {
+    SearchReq reqDto = SearchParamToReqConverter.convert(search, pageable);
+    Page<PostResponse> list = postService.getList(reqDto);
     return ResponseEntity.ok(list);
   }
 
